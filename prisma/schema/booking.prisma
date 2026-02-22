@@ -1,0 +1,25 @@
+model Booking {
+  id String @id @default(uuid())
+  studentId String @unique
+  tutorId   String
+  subject String
+  date      DateTime
+  time DateTime
+  duration Int
+  status    BookingStatus   @default(PENDING) // PENDING, CONFIRMED, CANCELLED, COMPLETED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  student User @relation(fields: [studentId], references: [id])
+
+}
+
+
+enum BookingStatus {
+    PENDING
+    CONFIRMED
+    CANCELLED
+    COMPLETED
+
+}

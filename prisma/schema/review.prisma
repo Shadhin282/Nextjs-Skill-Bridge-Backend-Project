@@ -1,0 +1,16 @@
+model Review {
+  id String @id @default(uuid()) @unique
+  studentId String
+  tutorId   String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  
+  student User @relation(fields: [studentId], references: [id])
+  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+ 
+  
+   
+    @@index([studentId])
+    @@index([tutorId])
+}

@@ -1,0 +1,12 @@
+model StudentProfile {
+    id String @id @default(uuid())
+    name String
+    studentId String @unique
+    bio String?
+    department String?
+    FavroiteSubjects String[]
+    
+    student User @relation("StudentProfileRelation",fields: [studentId], references: [id])
+   
+    
+}
