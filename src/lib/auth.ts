@@ -34,8 +34,8 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, 
         },
     },
-    baseURL: "http://localhost:4000",
-  trustedOrigins: ["http://localhost:3000"],
+    baseURL: "https://nextjs-skill-bridge-backend-project.onrender.com",
+  trustedOrigins: ["http://localhost:3000","https://skillbridge-project.netlify.app"],
      
 
 });
