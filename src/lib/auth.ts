@@ -36,6 +36,11 @@ export const auth = betterAuth({
     },
     baseURL: "https://nextjs-skill-bridge-backend-project.onrender.com",
   trustedOrigins: ["http://localhost:3000","https://skillbridge-project.netlify.app"],
+  advanced: {
+    crossSubDomainCookies: {
+      enabled: true,
+    },
+  },
      
 
 });
