@@ -16,7 +16,7 @@ const app = express();
 
 app.use(express.json())
 app.use(cors({
-    origin : "https://skill-bridge-frontend-psi.vercel.app",
+    origin : ["http://localhost:3000","https://skillbridge-project.netlify.app"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
