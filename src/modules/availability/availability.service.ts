@@ -16,12 +16,16 @@ const postAvailability = async (payload: Availability)=>{
 }
 
 
-const putAvailability = async (payload: Availability)=>{
+const putAvailability = async (payload: {tutorId: string; day: string; startTime : string; endTime: string})=>{
     const result = await prisma.availability.update({
         where : {
-            tutorId : payload.id
+            tutorId : payload.tutorId
         },
-        data : payload
+        data : {
+            day : payload.day,
+            startTime : payload.startTime,
+            endTime : payload.endTime
+        }
     })
     return result
 }
