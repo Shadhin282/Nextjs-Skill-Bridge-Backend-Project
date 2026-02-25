@@ -7,7 +7,7 @@ import { UserRole } from "../../../prisma/generated/prisma/enums";
 const router = express.Router();
 
 router.get('/',categoriesController.getCategory)
-router.post('/',categoriesController.postCategory)
+router.post('/',auth(UserRole.ADMIN),categoriesController.postCategory)
 router.delete('/:id',auth(UserRole.ADMIN), categoriesController.deleteCategory)
 
 

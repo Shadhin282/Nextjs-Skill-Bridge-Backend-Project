@@ -1,6 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from "express"
 import { CategoriesService } from "./categories.service"
 import { tutorService } from "../tutor/tutor.service"
+import { error } from "node:console"
 
 
 
@@ -60,9 +61,11 @@ const deleteCategory : RequestHandler = async (req, res, next) => {
                         return res.status(400).json({
                         success: false,
                         message : "Category has not deleted"
+                        
+                        
                         })
                 }
-                 res.status(201).json({
+                return res.status(201).json({
                         success: true,
                         message : "Category Data has deleted Successfully",
                         data : result

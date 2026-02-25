@@ -28,6 +28,14 @@ export const auth = betterAuth({
     emailAndPassword : {
         enabled : true
     },
+    cookies: {
+    session: {
+      attributes: {
+        secure: true,
+        sameSite: "none",
+      },
+    },
+  },
     socialProviders : {
         google: { 
             clientId: process.env.GOOGLE_CLIENT_ID as string, 
