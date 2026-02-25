@@ -21,7 +21,7 @@ const seedAdmin = async ()=>{
             throw new Error("User is already exist.")
         }
 
-        const signUpAdmin = await axios.post("http://localhost:4000/api/auth/sign-up/email", adminData)
+        const signUpAdmin = await axios.post("https://nextjs-skill-bridge-backend-project.onrender.com/api/auth/sign-up/email", adminData)
         return signUpAdmin;
 
     } catch (error) {

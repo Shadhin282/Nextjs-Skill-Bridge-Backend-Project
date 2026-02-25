@@ -59,12 +59,12 @@ const postReview = async (req:Request,res: Response, next: NextFunction)=>{
                 }
                 const result = await reviewsService.postReview(req.body, req.user.id as string)
                 if(!result){
-                        return res.status(400).json({
+                         res.status(400).json({
                         success: false,
                         message : "Review has not created"
                         })
                 }
-               return  res.status(201).json({
+                res.status(201).json({
                         success: true,
                         message : "Review Data has created Successfully",
                         data : result

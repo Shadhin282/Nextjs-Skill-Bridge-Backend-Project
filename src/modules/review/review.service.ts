@@ -29,6 +29,7 @@ const postReview =async (payload:{ rating : number, comment: string, tutorId: st
         })
 
         const result = await prisma.review.create({
+               
                 data  : {
                        rating :  payload.rating,
                        comment : payload.comment,
