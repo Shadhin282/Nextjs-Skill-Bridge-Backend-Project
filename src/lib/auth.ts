@@ -43,7 +43,7 @@ export const auth = betterAuth({
         },
     },
     baseURL: "https://nextjs-skill-bridge-backend-project.onrender.com",
-  trustedOrigins: ["http://localhost:3000","https://skillbridge-project.netlify.app"],
+  trustedOrigins: ["http://localhost:3000","https://skillbridge-project.netlify.app","https://skill-bridge-frontend-psi.vercel.app"],
   session: {
     cookieCache: {
       enabled: true,
