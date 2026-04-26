@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { prisma } from "../../lib/prisma";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+const stripe = new Stripe((process.env.STRIPE_SECRET_KEY as string) || "sk_test_dummy");
 
 // Creates a Stripe PaymentIntent and returns clientSecret + paymentIntentId
 const createPaymentIntent = async (amount: number, currency: string = "usd") => {

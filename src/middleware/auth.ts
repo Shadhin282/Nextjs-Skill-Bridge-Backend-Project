@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { UserRole } from "../../prisma/generated/prisma/enums";
 import { auth as betterAuth } from "../lib/auth";
+import { fromNodeHeaders } from "better-auth/node";
 
 declare global {
   namespace Express {
@@ -21,9 +22,11 @@ export const auth = (...Roles: UserRole[]) => {
       // console.log("Middleware auth is working ", Roles)
       // console.log("header ", req.headers)
       const session = await betterAuth.api.getSession({
-        headers: req.headers as any,
+        headers: fromNodeHeaders(req.headers),
       });
-      console.log(session)
+      console.log("=== AUTH MIDDLEWARE HIT ===");
+      console.log("Req headers:", req.headers.cookie);
+      console.log("Session resolved:", session);
 
       if(!session){
         return res.status(401).json({
