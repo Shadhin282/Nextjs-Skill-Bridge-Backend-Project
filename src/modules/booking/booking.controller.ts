@@ -64,7 +64,7 @@ const postBooking = async (req: Request, res: Response, next: NextFunction) => {
 
     const result = await bookingService.postBooking(bookingInfo, req.user.id as string);
 
-    if (!result) {
+    if (!result.length) {
       return res.status(400).json({
         success: false,
         message: "Booking has not created",
