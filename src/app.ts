@@ -9,6 +9,7 @@ import { categoriesRoute } from "./modules/categories/categories.router";
 import { userRoute } from "./modules/admin/admin.router";
 import { notFound } from "./middleware/notFound";
 import { availabilityRoute } from "./modules/availability/availability.router";
+import { paymentRoute } from "./modules/payment/payment.router";
 
 
 
@@ -33,6 +34,8 @@ app.use('/api/tutors',tutorRoute)
 app.use('/api/tutor', tutorRoute)
 
 app.use('/api/availability',availabilityRoute)
+
+app.use('/api/payments', paymentRoute)
 
 app.use('/api/bookings',bookingRoute)
 

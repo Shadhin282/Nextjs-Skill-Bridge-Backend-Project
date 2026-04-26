@@ -1,102 +1,122 @@
-import { NextFunction, Request, RequestHandler, Response } from "express"
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { bookingService } from "./booking.service";
 
+const getBooking = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await bookingService.getBooking();
+    if (!result) {
+      return res.status(400).json({
+        success: false,
+        message: "Booking has not got",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Booking Data fetch Successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
+const getBookingById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    console.log("booking id", id);
+    if (!id) {
+      return res.send("No ID");
+    }
+    const result = await bookingService.getBookingById(id as string);
+    if (!result) {
+      return res.status(400).json({
+        success: false,
+        message: "Booking data has not got",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Booking data has got Successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-const getBooking= async (req:Request,res: Response,next:NextFunction)=>{
-                try {
-                        const result = await bookingService.getBooking()
-                         if(!result){
-                        return res.status(400).json({
-                        success: false,
-                        message : "Booking has not got"
-                        })
-                }
-                res.status(200).json({
-                        success: true,
-                        message : "Booking Data fetch Successfully",
-                        data : result
-                })
-                } catch (error) {
-                        next(error)
-                }
-}
+const postBooking = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const bookingInfo = req.body;
+    console.log(bookingInfo);
 
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
 
-const getBookingById = async (req:Request, res:Response,next:NextFunction)=>{
-        try {
-                const {id} = req.params;
-                console.log("booking id", id)
-                if(!id){
-                        return res.send("No ID");
-                }
-                const result = await bookingService.getBookingById(id as string)
-                 if(!result){
-                        return res.status(400).json({
-                        success: false,
-                        message : "Booking data has not got"
-                        })
-                }
-                res.status(200).json({
-                        success: true,
-                        message : "Booking data has got Successfully",
-                        data : result
-                })
-        } catch (error) {
-                 next(error)
-        }
-}
+    // Validate paymentIntentId is present
+    if (!bookingInfo.paymentIntentId) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Payment is required to confirm a booking. Please complete the payment first.",
+      });
+    }
 
-const postBooking = async (req:Request, res: Response,next:NextFunction) => {
-       try {
-                 const bookingInfo = req.body;
-                 console.log(bookingInfo)
-                if(!req.user){
-                        return res.send("Unauthorized")
-                }
-        const result = await bookingService.postBooking(bookingInfo, req.user.id as string)
-         if(!result){
-                        return res.status(400).json({
-                        success: false,
-                        message : "Booking has not created"
-                        })
-                }
-               return res.status(200).json({
-                        success: true,
-                        message : "Booking Data has created Successfully",
-                        data : result
-                })
-       } catch (error) {
-         next(error)
-       }
-}
+    const result = await bookingService.postBooking(bookingInfo, req.user.id as string);
 
+    if (!result) {
+      return res.status(400).json({
+        success: false,
+        message: "Booking has not created",
+      });
+    }
 
-const deleteBookingById : RequestHandler = async (req,res,next)=>{
-        try {
-                const {id} = req.params;
-                if(!id){
-                        return res.send("No ID");
-                }
-                const result = await bookingService.deleteBookingId(id as string)
-                 if(!result){
-                        return res.status(400).json({
-                        success: false,
-                        message : "Booking data has not deleted"
-                        })
-                }
-                res.status(200).json({
-                        success: true,
-                        message : "Booking data has deleted Successfully",
-                        data : result
-                })
-        } catch (error) {
-                 next(error)
-        }
-}
+    return res.status(200).json({
+      success: true,
+      message: "Payment verified! Booking confirmed successfully 🎉",
+      data: result,
+    });
+  } catch (error: any) {
+    // Return a clear 402 if the payment wasn't completed
+    if (
+      error?.message?.includes("Payment not completed") ||
+      error?.message?.includes("payment")
+    ) {
+      return res.status(402).json({
+        success: false,
+        message: error.message,
+      });
+    }
+    next(error);
+  }
+};
+
+const deleteBookingById: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.send("No ID");
+    }
+    const result = await bookingService.deleteBookingId(id as string);
+    if (!result) {
+      return res.status(400).json({
+        success: false,
+        message: "Booking data has not deleted",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Booking data has deleted Successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const bookingController = {
-        getBooking,
-        postBooking,
-        getBookingById,
-        deleteBookingById
-}
+  getBooking,
+  postBooking,
+  getBookingById,
+  deleteBookingById,
+};

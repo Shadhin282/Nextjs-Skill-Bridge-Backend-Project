@@ -18,7 +18,8 @@ model User {
   review Review[]
   tutor TutorProfile?
   student StudentProfile?      @relation("StudentProfileRelation")
-  booking Booking?
+  booking Booking[]
+  payments Payment[]
 
   @@unique([email])
   @@map("user")
